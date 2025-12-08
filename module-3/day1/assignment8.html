@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="assignment8.css" />
+  </head>
+  <body>
+    <h2>Todo List (First 20 from API)</h2>
+
+    <button id="loadBtn">Load Todos</button>
+
+    <ul id="todoList"></ul>
+
+    <script>
+      async function fetchTodos() {
+        try {
+          const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+          const data = await res.json();
+
+          const first20 = data.slice(0, 20);
+
+          localStorage.setItem("apiTodos", JSON.stringify(first20));
+
+          renderTodos(first20);
+        } catch (error) {
+          console.log("Error fetching todos:", error);
+        }
+      }
+
+      function getStoredTodos() {
+        const saved = localStorage.getItem("apiTodos");
+        return saved ? JSON.parse(saved) : [];
+      }
+
+      function saveTodos(todos) {
+        localStorage.setItem("apiTodos", JSON.stringify(todos));
+      }
+
+      function renderTodos(todoArray) {
+        const list = document.getElementById("todoList");
+        list.innerHTML = "";
+
+        if (todoArray.length === 0) {
+          list.innerHTML = "<p>No Todos Available</p>";
+          return;
+        }
+
+        todoArray.forEach(function (todo) {
+          const item = document.createElement("li");
+
+          const title = todo.completed
+            ? todo.title + " (Completed)"
+            : todo.title;
+
+          item.textContent = title + " ";
+
+          const toggleBtn = document.createElement("button");
+          toggleBtn.textContent = "Toggle Status";
+          toggleBtn.addEventListener("click", function () {
+            todo.completed = !todo.completed;
+            saveTodos(todos);
+            renderTodos(todos);
+          });
+
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Delete";
+          delBtn.addEventListener("click", function () {
+            const index = todos.findIndex((t) => t.id === todo.id);
+            todos.splice(index, 1);
+            saveTodos(todos);
+            renderTodos(todos);
+          });
+
+          item.appendChild(toggleBtn);
+          item.appendChild(delBtn);
+
+          list.appendChild(item);
+        });
+      }
+
+      const loadBtn = document.getElementById("loadBtn");
+
+      loadBtn.addEventListener("click", fetchTodos);
+
+      const todos = getStoredTodos();
+      renderTodos(todos);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: linear-gradient(to right, #e3f2fd, #fce4ec);
+  margin: 0;
+  padding: 30px;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+#loadBtn {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 16px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+#loadBtn:hover {
+  background-color: #1565c0;
+}
+
+#todoList {
+  list-style-type: none;
+  padding: 0;
+  max-width: 550px;
+  margin: 25px auto;
+}
+
+#todoList li {
+  background: white;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+#todoList li span {
+  flex-grow: 1;
+}
+
+#todoList li button {
+  padding: 6px 12px;
+  border: none;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#todoList li button:first-of-type {
+  background-color: #4caf50;
+  color: white;
+}
+
+#todoList li button:first-of-type:hover {
+  background-color: #43a047;
+}
+
+#todoList li button:last-of-type {
+  background-color: #e53935;
+  color: white;
+}
+
+#todoList li button:last-of-type:hover {
+  background-color: #d32f2f;
+}
+
+#todoList p {
+  color: #555;
+  text-align: center;
+}
