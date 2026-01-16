@@ -1,0 +1,22 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "Rahul",
+      "course": "Computer Science",
+      "year": 2
+    },
+    {
+      "id": 2,
+      "name": "sam",
+      "course": "Computer Science",
+      "year": 1
+    },
+    {
+      "id": 3,
+      "name": "jon",
+      "course": "Civil",
+      "year": 2
+    }
+  ]
+}
