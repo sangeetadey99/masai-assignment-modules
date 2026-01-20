@@ -1,0 +1,15 @@
+{
+  "users": [
+    {
+      "id": 1768924016843,
+      "name": "Rahul Sahani",
+      "email": "rahul@gmail.com"
+    }
+  ],
+  "todos": [
+    {
+      "id": 1768924944742,
+      "grocery": "bring veggies"
+    }
+  ]
+}
