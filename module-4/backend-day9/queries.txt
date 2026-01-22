@@ -1,0 +1,127 @@
+Step 1: Create a Table:-
+CREATE TABLE students(
+  id SERIAL PRIMARY KEY,
+  name TEXT,
+  email TEXT,
+  age INTEGER,
+  course	TEXT,
+  created_at	TIMESTAMP DEFAULT NOW()
+);
+output:-Success. No rows returned
+
+
+Step 2: Insert Data (5–10 Records Required):-
+INSERT INTO students (name, email, age, course)
+VALUES
+('Tony Stark', 'tony@gmail.com', 23, 'Full Stack'),
+('Steve Rogers', 'steve@gmail.com', 20, 'Backend'),
+('Natasha Romanoff', 'natasha@gmail.com', 24, 'Frontend'),
+('Bruce Banner', 'bruce@gmail.com', 26, 'Data Science'),
+('Thor Odinson', 'thor@gmail.com', 22, 'Full Stack'),
+('Peter Parker', 'petar@gmail.com', 19, 'Frontend'),
+('Wanda Maximoff', 'wanda@gmail.com', 27, 'Backend'),
+('Clint Barton', 'clint@gmail.com', 21, 'UI/UX'),
+('Sam Wilson', 'sam@gmail.com', 25, 'DevOps'),
+('TChalla', 'tchalla@gmail.com', 23, 'Data Science');
+output:-Success. No rows returned
+
+
+
+Step 3: Read Data:-
+1. Fetch all students:-
+select * from students
+output:-
+| id | name             | email             | age | course       | created_at                 |
+| -- | ---------------- | ----------------- | --- | ------------ | -------------------------- |
+| 1  | Tony Stark       | tony@gmail.com    | 23  | Full Stack   | 2026-01-22 17:32:27.191142 |
+| 2  | Steve Rogers     | steve@gmail.com   | 20  | Backend      | 2026-01-22 17:32:27.191142 |
+| 3  | Natasha Romanoff | natasha@gmail.com | 24  | Frontend     | 2026-01-22 17:32:27.191142 |
+| 4  | Bruce Banner     | bruce@gmail.com   | 26  | Data Science | 2026-01-22 17:32:27.191142 |
+| 5  | Thor Odinson     | thor@gmail.com    | 22  | Full Stack   | 2026-01-22 17:32:27.191142 |
+| 6  | Peter Parker     | petar@gmail.com   | 19  | Frontend     | 2026-01-22 17:32:27.191142 |
+| 7  | Wanda Maximoff   | wanda@gmail.com   | 27  | Backend      | 2026-01-22 17:32:27.191142 |
+| 8  | Clint Barton     | clint@gmail.com   | 21  | UI/UX        | 2026-01-22 17:32:27.191142 |
+| 9  | Sam Wilson       | sam@gmail.com     | 25  | DevOps       | 2026-01-22 17:32:27.191142 |
+| 10 | TChalla          | tchalla@gmail.com | 23  | Data Science | 2026-01-22 17:32:27.191142 |
+
+2. Fetch students older than 20:-
+select * from students where age > 20
+output
+| id | name             | email             | age | course       | created_at                 |
+| -- | ---------------- | ----------------- | --- | ------------ | -------------------------- |
+| 1  | Tony Stark       | tony@gmail.com    | 23  | Full Stack   | 2026-01-22 17:32:27.191142 |
+| 3  | Natasha Romanoff | natasha@gmail.com | 24  | Frontend     | 2026-01-22 17:32:27.191142 |
+| 4  | Bruce Banner     | bruce@gmail.com   | 26  | Data Science | 2026-01-22 17:32:27.191142 |
+| 5  | Thor Odinson     | thor@gmail.com    | 22  | Full Stack   | 2026-01-22 17:32:27.191142 |
+| 7  | Wanda Maximoff   | wanda@gmail.com   | 27  | Backend      | 2026-01-22 17:32:27.191142 |
+| 8  | Clint Barton     | clint@gmail.com   | 21  | UI/UX        | 2026-01-22 17:32:27.191142 |
+| 9  | Sam Wilson       | sam@gmail.com     | 25  | DevOps       | 2026-01-22 17:32:27.191142 |
+| 10 | TChalla          | tchalla@gmail.com | 23  | Data Science | 2026-01-22 17:32:27.191142 |
+
+3. Fetch only name and email columns:-
+select name, email from students
+output:-
+| name             | email             |
+| ---------------- | ----------------- |
+| Tony Stark       | tony@gmail.com    |
+| Steve Rogers     | steve@gmail.com   |
+| Natasha Romanoff | natasha@gmail.com |
+| Bruce Banner     | bruce@gmail.com   |
+| Thor Odinson     | thor@gmail.com    |
+| Peter Parker     | petar@gmail.com   |
+| Wanda Maximoff   | wanda@gmail.com   |
+| Clint Barton     | clint@gmail.com   |
+| Sam Wilson       | sam@gmail.com     |
+| TChalla          | tchalla@gmail.com |
+
+4. Fetch students enrolled in a specific course:-
+select * from students where course = 'Frontend'
+output:-
+| id | name             | email             | age | course   | created_at                 |
+| -- | ---------------- | ----------------- | --- | -------- | -------------------------- |
+| 3  | Natasha Romanoff | natasha@gmail.com | 24  | Frontend | 2026-01-22 17:32:27.191142 |
+| 6  | Peter Parker     | petar@gmail.com   | 19  | Frontend | 2026-01-22 17:32:27.191142 |
+
+
+Step 4: Update Data:-
+Update the age of one student:-
+update students set age = 20 where name = 'Peter Parker'
+output:-Success. No rows returned
+[to verify:-select * from students where name = 'Peter Parker']
+output:-
+| id | name         | email           | age | course   | created_at                 |
+| -- | ------------ | --------------- | --- | -------- | -------------------------- |
+| 6  | Peter Parker | petar@gmail.com | 20  | Frontend | 2026-01-22 17:32:27.191142 |
+
+Update the course for all students enrolled in one course:-
+update students set course = 'Mern Stack' where course = 'Full Stack'
+output:-Success. No rows returned
+[to verify:-select * from students where course = 'Mern Stack']
+output:-
+| id | name         | email          | age | course     | created_at                 |
+| -- | ------------ | -------------- | --- | ---------- | -------------------------- |
+| 1  | Tony Stark   | tony@gmail.com | 23  | Mern Stack | 2026-01-22 14:53:37.399517 |
+| 5  | Thor Odinson | thor@gmail.com | 22  | Mern Stack | 2026-01-22 14:53:37.399517 |
+
+
+Step 5: Delete Data:-
+Delete one student using id:-
+delete from students where id = 10
+output:-Success. No rows returned
+[to verify:-select * from students where id = 10]
+output:-Success. No rows returned
+
+Delete all students below a certain age:-
+delete from students where age < 21
+output:-Success. No rows returned
+[to verify:- select * from students;]
+output:-
+| id | name             | email             | age | course       | created_at                 |
+| -- | ---------------- | ----------------- | --- | ------------ | -------------------------- |
+| 3  | Natasha Romanoff | natasha@gmail.com | 24  | Frontend     | 2026-01-22 17:32:27.191142 |
+| 4  | Bruce Banner     | bruce@gmail.com   | 26  | Data Science | 2026-01-22 17:32:27.191142 |
+| 7  | Wanda Maximoff   | wanda@gmail.com   | 27  | Backend      | 2026-01-22 17:32:27.191142 |
+| 8  | Clint Barton     | clint@gmail.com   | 21  | UI/UX        | 2026-01-22 17:32:27.191142 |
+| 9  | Sam Wilson       | sam@gmail.com     | 25  | DevOps       | 2026-01-22 17:32:27.191142 |
+| 1  | Tony Stark       | tony@gmail.com    | 23  | Mern Stack   | 2026-01-22 17:32:27.191142 |
+| 5  | Thor Odinson     | thor@gmail.com    | 22  | Mern Stack   | 2026-01-22 17:32:27.191142 |
