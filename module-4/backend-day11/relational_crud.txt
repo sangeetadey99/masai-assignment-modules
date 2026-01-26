@@ -1,0 +1,141 @@
+Step 1: Create Tables with Relationships:-
+Table 1: users:-
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+Table 2: orders:-
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    amount INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+
+Step 2: Insert Data:-
+1. Insert at least 5 users:-
+INSERT INTO users (name, email) VALUES
+('Alice', 'alice@gmail.com'),
+('Bob', 'bob@gmail.com'),
+('Charlie', 'charlie@gmail.com'),
+('David', 'david@gmail.com'),
+('Emma', 'emma@gmail.com');
+
+2. Insert at least 8–10 orders:-
+INSERT INTO orders (user_id, amount, status) VALUES
+(1, 500, 'completed'),
+(1, 1200, 'pending'),
+(2, 300, 'completed'),
+(2, 700, 'completed'),
+(3, 1500, 'pending'),
+(3, 400, 'completed'),
+(3, 900, 'completed'),
+(4, 200, 'cancelled'),
+(5, 1000, 'completed');
+
+
+Step 3: Read Data (Relational Reads)
+1.Fetch all users:-
+select * from users
+output:-
+| id | name    | email             | created_at                 |
+| -- | ------- | ----------------- | -------------------------- |
+| 1  | Alice   | alice@gmail.com   | 2026-01-26 12:28:25.300898 |
+| 2  | Bob     | bob@gmail.com     | 2026-01-26 12:28:25.300898 |
+| 3  | Charlie | charlie@gmail.com | 2026-01-26 12:28:25.300898 |
+| 4  | David   | david@gmail.com   | 2026-01-26 12:28:25.300898 |
+| 5  | Emma    | emma@gmail.com    | 2026-01-26 12:28:25.300898 |
+
+2.Fetch all orders:-
+select * from orders
+output:-
+| id | user_id | amount | status    | created_at                 |
+| -- | ------- | ------ | --------- | -------------------------- |
+| 1  | 1       | 500    | completed | 2026-01-26 12:30:07.494369 |
+| 2  | 1       | 1200   | pending   | 2026-01-26 12:30:07.494369 |
+| 3  | 2       | 300    | completed | 2026-01-26 12:30:07.494369 |
+| 4  | 2       | 700    | completed | 2026-01-26 12:30:07.494369 |
+| 5  | 3       | 1500   | pending   | 2026-01-26 12:30:07.494369 |
+| 6  | 3       | 400    | completed | 2026-01-26 12:30:07.494369 |
+| 7  | 3       | 900    | completed | 2026-01-26 12:30:07.494369 |
+| 8  | 4       | 200    | cancelled | 2026-01-26 12:30:07.494369 |
+| 9  | 5       | 1000   | completed | 2026-01-26 12:30:07.494369 |
+
+3.Fetch all orders for a specific user:-
+select * from orders where user_id = 3
+output:-
+| id | user_id | amount | status    | created_at                 |
+| -- | ------- | ------ | --------- | -------------------------- |
+| 5  | 3       | 1500   | pending   | 2026-01-26 12:30:07.494369 |
+| 6  | 3       | 400    | completed | 2026-01-26 12:30:07.494369 |
+| 7  | 3       | 900    | completed | 2026-01-26 12:30:07.494369 |
+
+4.Fetch users who have more than one order:-
+select users.id, users.name, count(orders.id) as total_orders from users join orders on users.id = orders.user_id group by users.id, users.name           
+having count(orders.id) > 1;
+output:-
+| id | name    | total_orders |
+| -- | ------- | ------------ |
+| 2  | Bob     | 2            |
+| 3  | Charlie | 3            |
+| 1  | Alice   | 2            |
+
+5.Fetch total order amount per user:-
+select users.name, sum(orders.amount) as total_amount from users join orders on users.id = orders.user_id group by users.name
+output:-
+| name    | total_amount |
+| ------- | ------------ |
+| David   | 200          |
+| Alice   | 1700         |
+| Bob     | 1000         |
+| Charlie | 2800         |
+| Emma    | 1000         |
+
+
+Step 4: Update Data:-
+1. Update the email of one user:-
+update users set email = 'alice_new@gmail.com' where id = 1
+output:-Success. No rows returned
+
+2. Update the status of all orders for a specific user:-
+update orders set status = 'completed' where user_id = 3
+output:-Success. No rows returned
+
+3. Update order amount for a single order:-
+update orders set amount = 1800 where id = 5
+output:-Success. No rows returned
+
+
+Step 5: Delete Data:-
+1. Delete one order using order id:-
+delete from orders where id = 8
+output:-Success. No rows returned
+
+2. Delete all orders of a specific user:-
+delete from orders where user_id = 2
+output:-Success. No rows returned
+
+3. Attempt deleting a user with existing orders and observe the behavior:-
+delete from users where id = 1;
+output:-Error: Failed to run sql query: ERROR: 23503: update or delete on table "users" 
+violates foreign key constraint "orders_user_id_fkey" on table 
+"orders" DETAIL: Key (id)=(1) is still referenced from table "orders".
+
+
+Step 6: Conceptual Question (Short Answer)
+-- Why should orders not be stored inside the users table?
+
+-- Because one user can have many orders.
+-- Storing orders inside users would cause:
+-- 1. Data duplication
+-- 2. Poor scalability
+-- 3. Difficult updates
+-- 4. Violation of database normalization rules
+
+-- Separate tables with relationships keep data clean,
+-- reduce redundancy, and improve performance.
